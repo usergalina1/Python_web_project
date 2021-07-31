@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
+from steps.common import authenticate
 from tests import DOMAIN, CHROME_PATH, ADMIN_USER, DEFAULT_PASSWORD
 
 
@@ -13,18 +14,15 @@ class MyTestCase(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(executable_path=CHROME_PATH)
         self.browser.get(DOMAIN)
+        authenticate(self.browser)
+
+        wait = WebDriverWait(self.browser, 7)
+        wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
 
     def tearDown(self) -> None:
         self.browser.quit()
 
     def test_search_by_valid_id(self):
-        self.browser.find_element(By.ID, "txtUsername").send_keys(ADMIN_USER)
-        self.browser.find_element(By.ID, "txtPassword").send_keys(DEFAULT_PASSWORD)
-        self.browser.find_element(By.ID, "btnLogin").click()
-
-        wait = WebDriverWait(self.browser, 7)
-        wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
-
         self.browser.find_element(By.ID, 'empsearch_id').send_keys('0001')
         # self.browser.find_element(By.ID,'search_form').submit()
         # or
@@ -40,13 +38,6 @@ class MyTestCase(unittest.TestCase):
 
     def test_search_by_job_title(self):
         browser = self.browser
-        browser.find_element(By.ID, "txtUsername").send_keys(ADMIN_USER)
-        browser.find_element(By.ID, "txtPassword").send_keys(DEFAULT_PASSWORD)
-        browser.find_element(By.ID, "btnLogin").click()
-
-        wait = WebDriverWait(self.browser, 7)
-        wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
-
         # browser.find_element(By.ID, "empsearch_job_title").send_keys("QA Manager")
         # or
         # browser.find_element(By.ID, "empsearch_job_title").click()
@@ -67,7 +58,6 @@ class MyTestCase(unittest.TestCase):
             self.assertEqual('Full Time', cell.text)
 
         # or
-
         rows = self.browser.find_elements(By.XPATH, '//tbody/tr')
         for single_row in rows:
             self.assertEqual('QA Manager', single_row.find_element(By.XPATH, './/td[5]').text)
