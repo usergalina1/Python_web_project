@@ -7,6 +7,17 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 from tests import CHROME_PATH, DOMAIN, ADMIN_USER, DEFAULT_PASSWORD
 
+# Create the following test for the site:
+# http://hrm-online.portnov.com
+# 1. Login  (admin/password)
+# 2. Search by employee id for 0001
+# 3. assert that only 1 record came back
+# 4. assert that correct record came back
+# 5. assert that the record is for Bob Boss - QA Manager
+# Bonus:
+# 1. Login  (admin/password)
+# 2. Search by job title for QA Manager
+# 3. assert that all resulting record are for 'QA Manager' only
 
 def login_test(self):
     self.browser.find_element(By.ID, "txtUsername").send_keys(ADMIN_USER)
