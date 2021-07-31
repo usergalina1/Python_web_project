@@ -7,7 +7,7 @@ from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 
 from steps.common import authenticate
-from tests import DOMAIN, CHROME_PATH, ADMIN_USER, DEFAULT_PASSWORD
+from tests import DOMAIN, CHROME_PATH
 
 
 class MyTestCase(unittest.TestCase):
