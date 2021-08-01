@@ -10,7 +10,7 @@ from steps.common import authenticate
 from tests import DOMAIN, CHROME_PATH
 
 
-class MyTestCase(unittest.TestCase):
+class PimSearchTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome(executable_path=CHROME_PATH)
         self.browser.get(DOMAIN)
