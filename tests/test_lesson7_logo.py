@@ -29,7 +29,7 @@ class LogoTest(unittest.TestCase):
         logo = images_found[0]
 
         size_of_logo = logo.size
-        location_of_logo = logo.location          #top left pixel (x,y)
+        location_of_logo = logo.location  # top left pixel (x,y)
         logo_file_name = logo.get_attribute('src')
         size_of_page = browser.find_element(By.TAG_NAME, 'body').size
 
@@ -51,8 +51,8 @@ class LogoTest(unittest.TestCase):
 
         logo = images_found[0]
 
-        self.assertEqual('283',logo.get_attribute('width'))
-        self.assertEqual('56',logo.get_attribute('height'))
+        self.assertEqual('283', logo.get_attribute('width'))
+        self.assertEqual('56', logo.get_attribute('height'))
 
 
 if __name__ == '__main__':
