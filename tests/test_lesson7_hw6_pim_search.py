@@ -51,6 +51,7 @@ class PimSearchTest(unittest.TestCase):
         job_title_cells = self.browser.find_elements(By.XPATH, '//tbody/tr/td[5]')
         self.assertGreater(len(job_title_cells), 0)
         for cell in job_title_cells:
+            print(cell.text)
             self.assertEqual('QA Manager', cell.text)
 
         emp_type_cells = self.browser.find_elements(By.XPATH, '//tbody/tr/td[6]')
