@@ -17,8 +17,6 @@ from tests import CHROME_PATH, DOMAIN
 # Bonus Challenge:
 # Extend the test above to include all pages of employee records
 # Assume there can be more then the current number of pages and you don't know how many there will be eventually.
-from time import sleep
-from unittest import skip
 
 
 class SortingFirstName(unittest.TestCase):
