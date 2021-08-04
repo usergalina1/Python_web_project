@@ -16,8 +16,7 @@ from tests import CHROME_PATH, DOMAIN
 # 5. Ensure the records on the first page are listed in alphabetical order by name
 # Bonus Challenge:
 # Extend the test above to include all pages of employee records
-# Assume there can be more then the current number of pages and you don't know how many there will be eventually.
-
+# Assume there can be more then the current number of pages and you don't know how many there will be eventually
 
 class SortingFirstName(unittest.TestCase):
     def setUp(self):
