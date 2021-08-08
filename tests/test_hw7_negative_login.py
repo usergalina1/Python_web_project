@@ -4,6 +4,7 @@ from parameterized import parameterized
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
 from steps.common import authenticate
 from tests import CHROME_PATH, DOMAIN
 
