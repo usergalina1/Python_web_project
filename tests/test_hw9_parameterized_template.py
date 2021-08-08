@@ -40,7 +40,6 @@ class MyTestCase(unittest.TestCase):
         browser.find_element(By.NAME, 'calculate').click()
         result = browser.find_elements(By.NAME, 'display')
         print(result[0].accessible_name)
-        expected_result = expected_result
         self.assertEqual(expected_result, result[0].accessible_name)
 
     # # 1 + 2 = 3
