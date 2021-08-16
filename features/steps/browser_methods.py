@@ -1,5 +1,5 @@
 import re
-from  features import vars
+from features import vars
 
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -45,3 +45,28 @@ def _clean(text: str):
         if getattr(vars, match.group(1), False):
             text = re.sub(r"\${.+}", getattr(vars, match.group(1)), text)  # regular expression regex101.com
     return text if text != 'None' else ''
+
+
+@step('I go to url {url}')
+def goto_url(context, url):
+    context.base_methods.goto_url(url)
+
+
+@step('I clear input by {by}={locator}')
+def clear_input(context, by, locator):
+    context.base_methods.clear_input(by, locator)
+
+
+@step('I get element by {by}={locator}')
+def get_elem_value(context, by, locator):
+    context.base_methods.get_elem_value(by, locator)
+
+
+@step('I scroll to element by {by}={locator}')
+def scroll_to_elem(context, by, locator):
+    context.base_methods.scroll_to_elem(by, locator)
+
+
+@step('I replace input of element by {by}={locator} with text {text2}')
+def replace_input_text(context, by, locator, text2):
+    context.base_methods.replace_input_text(by, locator, text2)

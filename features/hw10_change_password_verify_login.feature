@@ -8,7 +8,7 @@ Feature: Change password and verify successful login
 #Logout
 #Login as bobboss to verify the new password works.
 
-  Scenario:
+  Scenario: Change password and verify successful login
     When I enter text ${ADMIN_USER} into the element by id=txtUsername
     And I enter text ${DEFAULT_PASSWORD} into the element by id=txtPassword
     And I click the element by id=btnLogin
