@@ -1,70 +1,51 @@
-import time
 import unittest
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.select import Select
-from selenium.webdriver.support.wait import WebDriverWait
-
-from test_steps.common import authenticate
-from tests import CHROME_PATH, DOMAIN
+from fixtures import AdminUserAuthentication
+from pages.add_employee import AddEmployeePage
+from pages.employee_information import EmployeeInformationPage
+from pages.job import JobPage
+from pages.personal_details import PersonalDetailsPage
 
 
-class CreateEmployeeTest(unittest.TestCase):
-    def setUp(self):
-        self.browser = webdriver.Chrome(executable_path=CHROME_PATH)
-        self.browser.get(DOMAIN)
-        authenticate(self.browser)
+class CreateEmployeeTest(AdminUserAuthentication):
 
-        wait = WebDriverWait(self.browser, 7)
-        wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
-
-    def tearDown(self) -> None:
-        self.browser.quit()
+    def __init__(self, methodName: str = ...):
+        super().__init__(methodName)
+        self.emp_info_page = None
 
     def test_create_employee_no_creds(self):
-        browser = self.browser
+        emp_info_page = EmployeeInformationPage(self.browser)
+        emp_info_page.click_add_btn()
 
-        emp_id = str(int(time.time() * 1000))[4:]
+        add_emp_page = AddEmployeePage(self.browser)
+        self.assertEqual("Add Employee", add_emp_page.verify_add_employee_page())
+        add_emp_page.create_employee()
+        employee_id = add_emp_page.create_random_emp_id()
+        add_emp_page.click_save_button()
 
-        browser.find_element(By.ID, "btnAdd").click()
+        pers_details_page = PersonalDetailsPage(self.browser)
+        self.assertEqual("Personal Details", pers_details_page.verify_personal_details_page())
+        pers_details_page.click_job()
 
-        self.assertEqual("Add Employee", browser.find_element(By.TAG_NAME, "h1").text)
+        job_page = JobPage(self.browser)
+        self.assertEqual("Job", job_page.verify_job_page())
+        job_page.click_edit_button()
+        job_page.select_sub_unit("HR")
+        job_page.click_save_button()
 
-        browser.find_element(By.ID, "firstName").send_keys('Steve')
-        browser.find_element(By.ID, "lastName").send_keys('Jones')
+        emp_info_page.click_pim()
 
-        browser.find_element(By.ID, "employeeId").clear()
-        browser.find_element(By.ID, "employeeId").send_keys(emp_id)
+        emp_info_page.search_for_employee_by_id(employee_id)
 
-        browser.find_element(By.ID, "btnSave").click()
-
-        self.assertEqual("Personal Details", browser.find_element(By.CSS_SELECTOR, ".personalDetails h1").text)
-
-        self.browser.find_element(By.XPATH, '//*[@id="sidenav"]//a[text()="Job"]').click()
-        # Edit button
-        browser.find_element(By.ID, "btnSave").click()
-
-        Select(browser.find_element(By.ID, "job_sub_unit")).select_by_visible_text("HR")
-        browser.find_element(By.ID, "btnSave").click()  # Save button
-
-        browser.find_element(By.LINK_TEXT, "PIM").click()
-        self.browser.find_element(By.ID, 'empsearch_id').send_keys(emp_id)
-        self.browser.find_element(By.ID, 'searchBtn').click()
-
-        rows = self.browser.find_elements(By.XPATH, "//tbody/tr")
+        rows = emp_info_page.get_all_employee_table_rows()
         self.assertEqual(1, len(rows))
 
-        self.assertEqual(emp_id, self.browser.find_element(By.XPATH, '//tbody/tr/td[2]/a').text)
-        self.assertEqual('Steve', self.browser.find_element(By.XPATH, '//tbody/tr/td[3]/a').text)
-        self.assertEqual('Jones', self.browser.find_element(By.XPATH, '//tbody/tr/td[4]/a').text)
-        self.assertEqual('HR', self.browser.find_element(By.XPATH, '//tbody/tr/td[7]').text)
-
+        emp_info = emp_info_page.get_row_info(1)
+        self.assertEqual(employee_id, emp_info.get('id'))
+        self.assertEqual('Steve', emp_info.get('first name'))
+        self.assertEqual('Jones', emp_info.get('last name'))
+        self.assertEqual('HR', emp_info.get('sub unit'))
 
 
 if __name__ == '__main__':
     unittest.main()
-
-
-
