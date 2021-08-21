@@ -6,10 +6,9 @@ def find_sum(number1, number2) -> float:
         number1 = 0
     if number2 == None:
         number2 = 0
-    if type(number1)== str:
+    if type(number1) == str:
         raise ValueError('Please put integers')
     return number1 + number2
-
 
 
 class MyTestCase(unittest.TestCase):
@@ -27,7 +26,6 @@ class MyTestCase(unittest.TestCase):
 
         self.assertLess(name_length, age / 2)
 
-
     def test_positive_valid_sum(self):
         self.assertEqual(10, find_sum(7, 3))
 
@@ -42,13 +40,3 @@ class MyTestCase(unittest.TestCase):
 
     def test_negative_char_number_input(self):
         self.assertRaises(TypeError, lambda: find_sum(4, 'x'))
-
-
-
-
-
-
-
-
-
-

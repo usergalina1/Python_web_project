@@ -1,21 +1,20 @@
 import unittest
-from time import sleep
 
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 
-from tests import CHROME_PATH, DOMAIN, ADMIN_USER, DEFAULT_PASSWORD
+from fixtures import BaseFixture
+from tests import ADMIN_USER, DEFAULT_PASSWORD
 
 
-class LoginPageTests(unittest.TestCase):
-    def setUp(self):
-        self.browser = webdriver.Chrome(executable_path=CHROME_PATH)
-        self.browser.get(DOMAIN)
-
-    def tearDown(self) -> None:
-        self.browser.quit()
+class LoginPageTests(BaseFixture):
+    # def setUp(self):
+    #     self.browser = webdriver.Chrome(executable_path=CHROME_PATH)
+    #     self.browser.get(DOMAIN)
+    #
+    # def tearDown(self) -> None:
+    #     self.browser.quit()
 
     def test_valid_login(self):
         original_url = self.browser.current_url
@@ -23,8 +22,8 @@ class LoginPageTests(unittest.TestCase):
         self.browser.find_element(By.ID, "txtPassword").send_keys(DEFAULT_PASSWORD)
         self.browser.find_element(By.ID, "btnLogin").click()
 
-        wait = WebDriverWait(self.browser, 7)
-        wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
+        # wait = WebDriverWait(self.browser, 7)
+        self.wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
 
         new_url = self.browser.current_url
         self.assertNotEqual(original_url, new_url)
