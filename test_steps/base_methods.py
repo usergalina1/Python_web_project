@@ -43,13 +43,16 @@ class BaseMethods:
     def clear_input(self, locator: tuple):
         self.find_elem(locator).clear()
 
-    def get_elem_value(self, locator: tuple) -> str:
-        return self.browser.find_element(locator).get_attribute('value')
+    def get_elem_value(self, locator: tuple):
+        self.browser.find_element(locator).get_attribute('value')
 
     def scroll_to_elem(self, locator: tuple):
         target = self.find_elem(locator)
         ActionChains(self.browser).move_to_element(target).perform()
 
-    def replace_input_text(self, locator: tuple, text2):
-        self.find_elem(locator).clear()
-        self.find_elem(locator).send_keys(text2)
+    def scroll_to_elem1(self, locator: tuple):
+        self.find_elem(locator).location_once_scrolled_into_view
+
+    def replace_input_text(self, locator: tuple, text: str):
+        self.clear_input(locator)
+        self.enter_text(locator, text)
