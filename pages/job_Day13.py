@@ -2,11 +2,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 
+from pages.add_employee_Day13 import BasePage
 from test_steps.base_methods import BaseMethods
 
 
-class JobPageDay13(BaseMethods):
+class JobPageDay13(BasePage):
     HEADER = 'Job'
+    PAGE_URL = '/pim/viewJobDetails/empNumber/'
     success_msg = (By.CSS_SELECTOR, '.message.success')
     page_header = (By.CSS_SELECTOR, ".head h1")
     sub_unit_fld = (By.ID, "job_sub_unit")

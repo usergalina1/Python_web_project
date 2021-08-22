@@ -3,10 +3,14 @@ from typing import List
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
+from pages.add_employee_Day13 import BasePage
 from test_steps.base_methods import BaseMethods
 
 
-class EmployeeInformationPage(BaseMethods):
+class EmployeeInformationPage(BasePage):
+    PAGE_URL = '/pim/viewEmployeeList'
+    HEADER = 'Employee Information'
+
     search_btn = (By.ID, 'searchBtn')
     employee_id_fld = (By.ID, 'empsearch_id')
     table_row = (By.XPATH, '//tbody/tr')
