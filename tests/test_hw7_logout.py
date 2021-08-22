@@ -24,7 +24,7 @@ class LoginTests(unittest.TestCase):
     def test_logout_test(self):
         self.browser.find_element(By.ID, 'welcome').click()
 
-        logout = self.browser.find_element(By.XPATH, '//*[@id="welcome-menu"]/ul/li[2]/a')
+        logout = self.browser.find_element(By.XPATH, '//*[@id="welcome-menus"]/ul/li[2]/a')
         wait = WebDriverWait(self.browser, 7)
         wait.until(expected_conditions.element_to_be_clickable(logout))
         logout.click()
