@@ -4,6 +4,9 @@ import time
 from selenium.webdriver.common.by import By
 
 from fixtures import AdminUserAuthentication
+
+from menus.top_nav import TopNavMenu
+
 from pages.add_employee import AddEmployeePage
 from pages.add_employee_Day13 import AddEmployeePageDay13
 from pages.employee_information import EmployeeInformationPage
@@ -17,6 +20,9 @@ class CreateEmployeeTest(AdminUserAuthentication):
 
     def setUp(self):
         super().setUp()
+
+        self.top_menu = TopNavMenu(self.browser)
+
         self.personal_details_page_day13 = PersonalDetailsPageDay13(self.browser)
         self.job_page_day13 = JobPageDay13(self.browser)
         self.add_employee_page_day13 = AddEmployeePageDay13(self.browser)
