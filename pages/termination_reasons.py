@@ -33,3 +33,4 @@ class TerminationReasonsPage(BasePage):
         self.click_elem(self.check_btn)
         self.click_elem(self.delete_btn)
         self.wait.until(EC.visibility_of_element_located(self.success_msg))
+
