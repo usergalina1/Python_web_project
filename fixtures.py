@@ -41,4 +41,4 @@ class AdminUserAuthentication(BaseFixture):
         # self.browser.get(DOMAIN)
         super().setUp()
         LoginPage(self.browser).authenticate()
-        self.wait.until(expected_conditions.url_contains("pim/viewEmployeeList"))
+        self.wait.until(expected_conditions.url_contains("/pim/viewEmployeeList"))
