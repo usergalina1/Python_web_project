@@ -1,0 +1,11 @@
+Homework:
+(Use POM to create the test.)
+Login
+Got to PIM > Configuration > Termination reasons
+Click Add
+Enter a new reason : Missing / No-Show
+Save
+Assert it was created
+Select the checkbox next to it
+Delete the reason
+Assert in was removed
