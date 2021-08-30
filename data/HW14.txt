@@ -1,0 +1,5 @@
+Homework:
+Use the api.py module included above to create unit tests for the api function.
+The api function is designed in a way which allows you to pass any parameters and any payload. If payload is passed in,
+ it completely overrides the default, if additional params are passed in then they fully override all named parameters.
+Create at least 10 tests.
