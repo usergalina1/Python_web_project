@@ -47,7 +47,9 @@ class FoothillApiTests(unittest.TestCase):
             ]
         }
 
-        params = params if params is not  None else default_params
+
+        params = params if params is not None else default_params
+
         data = payload if payload is not None else json
 
         return requests.post(url='https://catalog.foothill.edu/course-search/api/',
@@ -99,6 +101,43 @@ class FoothillApiTests(unittest.TestCase):
         ('bad_route', 'art', 'BAD', None, '{"fatal":"Unknown route \\"BAD\\""}')
     ])
 
+    def test_negative_tests(self, test_name, keyword, route, page, expected_output):
+        result = self.post_foothill_course_search(keyword, page, route)
+        self.assertEqual(expected_output, result.text)
+
+    def test_search_no_keyword(self):
+        result = self.post_foothill_course_search(keyword=None)
+        self.assertEqual('{"fatal":"criterion.value is null"}', result.text)
+
+    def test_search_bad_route(self):
+        result = self.post_foothill_course_search(keyword='art', route='BAD')
+        self.assertEqual('{"fatal":"Unknown route \\"BAD\\""}', result.text)
+    #
+    # def test_search_empty_page(self):
+    #     result = self.post_foothill_course_search(keyword='art', page=' ')
+    #     self.assertEqual('', result.text)
+    #
+    # def test_search_bad_payload(self):
+    #     payload = {}
+    #     result = self.post_foothill_course_search(keyword='art', payload=payload)
+    #     self.assertEqual('{"fatal":"searchData.other is undefined"}', result.text)
+    #
+    # def test_search_partial_payload(self):
+    #     keyword = 'art'
+    #     payload = {'other': {'db': ''},
+    #                'criteria': [
+    #                    {'field': 'keyword', 'value': keyword}
+    #                ]
+    #                }
+    #     result = self.post_foothill_course_search(keyword=keyword, payload=payload)
+    #     self.assertEqual('', result.text)
+    #
+    # def test_search_bad_params(self):
+    #     result = self.post_foothill_course_search(fruit='kiwi', boy="male")
+    #     self.assertEqual('', result.text)
+    #
+
+
     def test_search_no_keyword(self, test_name, keyword, route, page, expected_output):
         result = self.post_foothill_course_search(keyword, page, route)
         self.assertEqual(expected_output, result.text)
@@ -129,6 +168,7 @@ class FoothillApiTests(unittest.TestCase):
     def test_search_bad_params(self):
         result = self.post_foothill_course_search(fruit='kiwi', boy="male")
         self.assertEqual('', result.text)
+
 
 if __name__ == '__main__':
     unittest.main()
