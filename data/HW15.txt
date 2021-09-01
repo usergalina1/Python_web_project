@@ -1,0 +1,13 @@
+Homework:
+# Using the careers-Portnov site above and the swagger documentation for the site api, create a scrip which uses requests package and not webdriver to:
+# authenticate
+# UI: https://careers-portnov.herokuapp.com/
+# REST: https://recruit-portnov.herokuapp.com/recruit/api/v1/api-docs/#/
+# user: student@example.com
+# pass: welcome
+# Create a new position and store the positions ID
+# Then checks the position has been created
+# Updates the position with additional details
+# Checks the position has been updated
+# Deletes the position
+# Checks that it has been deleted
