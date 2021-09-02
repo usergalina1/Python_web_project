@@ -1,0 +1,8 @@
+Homework:
+please create methods within Api class for the following api endpoints:
+GET /pim/viewEmployee/empNumber/{empNumber}
+And
+POST /pim/deleteEmployees
+You can use the network tab of developer tools to look up all necessary headers/parameters/payload
+Through the UI:
+Delete an employee, and view employee personal details.
