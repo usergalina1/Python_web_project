@@ -2,6 +2,7 @@ import os
 from bs4 import BeautifulSoup
 from lxml import etree
 import requests
+from requests_toolbelt import MultipartEncoder
 
 from tests import BASE_URL, PROJ_HOME
 
@@ -27,13 +28,13 @@ class Api:
     def authenticate(self, username='admin', password='password', csrf_token=None):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
-            }
+        }
 
         if not csrf_token and not hasattr(self, 'csrf_token'):
             self.get_login_page()
 
         data = {
-        # actionID:
+            # actionID:
             '_csrf_token': csrf_token or self.csrf_token,
             'txtUsername': username,
             'txtPassword': password,
@@ -41,22 +42,50 @@ class Api:
         }
         return self.session.post(url=f'{BASE_URL}/auth/validateCredentials', headers=headers, data=data)
 
-    def add_employee(self):
+    def add_employee(self, firstName=None, middleName=None, lastName=None, emp_id=None, profile_img=None):
         response = self.session.get(url=BASE_URL + '/pim/addEmployee')
         # self.csrf_token = self._get_token(result.text)
-        self.token = self._get_token_etree(response.text)
+        self.csrf_token = self._get_token_etree(response.text)
 
-        headers = {
-
-        }
+        photofile = ('profile', open(profile_img, 'rb'), 'image/jpeg')
 
         data = {
-
+            'firstName': firstName,
+            'middleName': middleName,
+            'lastName': lastName,
+            'employeeId': str(emp_id),
+            'photofile': photofile,
+            'user_name': '',
+            'user_password': '',
+            're_password': '',
+            'status': 'Enabled',  # if disable is selected, employee will be deleted
+            'empNumber': '',
+            '_csrf_token': self.csrf_token,
         }
 
-        result = self.session.post(url=BASE_URL + '/pim/addEmployee', headers=headers, data=data)
+        mpf = MultipartEncoder(fields=data)
 
-        return result
+        headers = {
+            'Content-Type': mpf.content_type
+        }
+
+        return self.session.post(url=BASE_URL + '/pim/addEmployee', headers=headers, data=mpf.to_string())
+
+    def get_employee_details(self, empNumber):
+        return self.session.get(url=BASE_URL + f'/pim/viewEmployee/empNumber/{empNumber}')
+
+    def delete_employee(self, empNumber):
+        response = self.session.get(url=f'{BASE_URL}/pim/viewEmployeeList')
+        default_list_token = self._get_token_etree(response.text, 'defaultList__csrf_token')
+
+        data = {
+            'defaultList[_csrf_token]': default_list_token,
+            'chkSelectRow[]': str(empNumber)
+        }
+
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+
+        self.session.post(url=BASE_URL + '/pim/deleteEmployees', data=data, headers=headers)
 
     def _get_token_bs4(self, source, token_id='csrf_token'):
         doc = BeautifulSoup(source, 'html5lib')
@@ -67,8 +96,6 @@ class Api:
         return doc.xpath(f"//input[@id='{token_id}']")[0].attrib.get('value')
 
 
-
-
 def write_to_file(source):
     file = open(os.path.join(PROJ_HOME, 'test_output', 'request_response.html'), 'w')
     file.write(source)
@@ -76,11 +103,15 @@ def write_to_file(source):
 
 
 ## DEBUG:
+import os
+from tests import PROJ_HOME
+
+file_path = os.path.join(PROJ_HOME, 'data', 'puppy.jpg')
 api = Api()
 # result = api.get_login_page()
 # print(api.csrf_token)
 api.authenticate()
-result = api.add_employee()
+result = api.add_employee(firstName='Bob', middleName='', lastName='smith', emp_id=123456789, profile_img=file_path)
 
 # example
 # doc = BeautifulSoup(result.text, 'html5lib')
