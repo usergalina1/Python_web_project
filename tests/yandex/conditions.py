@@ -58,9 +58,9 @@ class TestConditions(unittest.TestCase):
             if messages_count == 0:
                 print('У вас нет новых сообщений')
             elif messages_count == 1:
-                print('У вас', messages_count ,'новое сообщение')
-            elif messages_count >=2 and messages_count <= 4:
-                print('У вас', messages_count , 'новых сообщения')
+                print('У вас', messages_count, 'новое сообщение')
+            elif messages_count >= 2 and messages_count <= 4:
+                print('У вас', messages_count, 'новых сообщения')
             else:
                 print('У вас', messages_count, 'новых сообщений')
 
@@ -100,6 +100,7 @@ class TestConditions(unittest.TestCase):
                 breakfast = 'ничего не будет: разгрузочный день'
 
         print('Сегодня на завтрак', breakfast)
+
 
 if __name__ == '__main__':
     unittest.main()
